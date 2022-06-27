@@ -8,7 +8,6 @@ import axios from "axios"
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import ExpireToken from './ExpireToken';
-//h8hni
 
 const EmpList = (props) => {
     const navigate = useNavigate();
@@ -131,6 +130,7 @@ const EmpList = (props) => {
             setLocation('');
             setEmpId('');
             setCompany('');
+            alert('Successfully Created!');
             setEditForm(false);
         }
         setValidated(true);
@@ -182,6 +182,7 @@ const EmpList = (props) => {
             if(!response)return;
             reloadTable() ;
             setDeleteId('');
+            alert('Successfully Deleted!')
             setShowDeleteModal(false);
         }).catch(err=>{
             console.error(err);
@@ -205,6 +206,7 @@ const EmpList = (props) => {
             setLocation('');
             setEmpId('');
             setCompany('');
+            alert('Successfully Updated!');
             setEditForm(false);
         }
         setValidated(true);
@@ -282,22 +284,65 @@ const EmpList = (props) => {
             show={showViewEditModal} 
             onHide={handleEditClose} 
             {...props}
-            size="sm"
+            size="ml"
             aria-labelledby="contained-modal-title-vcenter"
             centered
             backdrop="static"
         >
-            <Modal.Body className='text-center'>
-                <img src={warning} alt="warning icon" />
-                <h4>Are you sure you want to update this?</h4>
+            <Modal.Header closeButton>
+                <Modal.Title className='font-bold'>Confirm Information</Modal.Title>
+            </Modal.Header>
+                <Form.Control 
+                    type="text" 
+                    placeholder="ID" 
+                    onChange={(e) =>setId(e.target.value)} 
+                    value={id}
+                    name="name"
+                    required
+                    className='form-control-input'
+                    hidden
+            ></Form.Control>
+            
+            <Modal.Body>
+                <Form.Group className='m-px'>
+                    <Form.Label className='font-bold'>Name : </Form.Label>
+                    <div>{name}</div>
+                </Form.Group>
 
+                <Form.Group className='m-px'>
+                    <Form.Label className='font-bold'>Phone : </Form.Label>
+                    <div>{phone}</div>
+                </Form.Group>
+                
+                <Form.Group className='m-px'>
+                    <Form.Label className='font-bold'>Email : </Form.Label>
+                    <div>{email}</div>
+                </Form.Group>
+                
+                <Form.Group className='m-px'>
+                    <Form.Label className='font-bold'>Location : </Form.Label>
+                    <div>{location}</div>
+                </Form.Group>
+
+                <Form.Group className='m-px'>
+                    <Form.Label className='font-bold'>Employee ID : </Form.Label>
+                    <div>{emp_id}</div>
+                </Form.Group>
+                
+                <Form.Group className='m-px'>
+                    <Form.Label className='font-bold'>Company : </Form.Label>
+                    <div>{company}</div>
+                </Form.Group>
+
+            </Modal.Body>
+            <Modal.Footer>
                 <Button 
                     type='submit'
-                    variant="success" 
+                    variant="primary" 
                     className='m-px btn1' 
                     onClick={(e)=>handleEditSubmit(e)}
                 >
-                    Yes
+                    Submit
                 </Button>
 
                 <Button 
@@ -308,7 +353,8 @@ const EmpList = (props) => {
                 >
                     No
                 </Button>
-            </Modal.Body>
+            </Modal.Footer>    
+            
         </Modal>
 
         {/* Delete Confirmation Modal */}
@@ -329,7 +375,7 @@ const EmpList = (props) => {
                     type='submit'
                     variant="success" 
                     className='m-px btn1' 
-                    onClick={(e)=>deleteItem()}
+                    onClick={()=>deleteItem()}
                     data-id={deleteId}
                 >
                     Yes
@@ -370,87 +416,36 @@ const EmpList = (props) => {
                             required
                             className='form-control-input'
                             hidden
-                    ></Form.Control>
+                        ></Form.Control>
                     <Modal.Body>
                         <Form.Group className='m-px'>
-                            <Form.Control 
-                                type="text" 
-                                placeholder="Name"
-                                pattern="[A-Za-z]{1,50}"
-                                required
-                                onChange={(e) =>setName(e.target.value)} 
-                                value={name}
-                                className='form-control-input'
-                                disabled
-                            >
-                            </Form.Control>
+                            <Form.Label className='font-bold'>Name : </Form.Label>
+                            <div>{name}</div>
                         </Form.Group>
 
                         <Form.Group className='m-px'>
-                            <Form.Control 
-                                type="text" 
-                                required
-                                placeholder="Phone Number (09)-(9)"
-                                pattern='^(09|\+639)\d{9}$'
-                                value={phone}
-                                onChange={(e) =>setPhone(e.target.value)}
-                                className='form-control-input'
-                                disabled
-                            >
-                            </Form.Control>
+                            <Form.Label className='font-bold'>Phone : </Form.Label>
+                            <div>{phone}</div>
                         </Form.Group>
                         
                         <Form.Group className='m-px'>
-                            <Form.Control 
-                                type="email" 
-                                placeholder="Email"
-                                pattern='[A-Z-a-z0-9._%+-]+@[A-Z-a-z0-9.-]+\.[A-Z-a-z]{2,}$'
-                                required
-                                onChange={(e) =>setEmail(e.target.value)} 
-                                value={email}
-                                className='form-control-input'
-                                disabled
-                            >
-                            </Form.Control>
+                            <Form.Label className='font-bold'>Email : </Form.Label>
+                            <div>{email}</div>
                         </Form.Group>
                         
                         <Form.Group className='m-px'>
-                            <Form.Control 
-                                type="text" 
-                                placeholder="Location"
-                                required
-                                onChange={(e) =>setLocation(e.target.value)} 
-                                value={location}
-                                className='form-control-input'
-                                disabled
-                            >
-                            </Form.Control>
+                            <Form.Label className='font-bold'>Location : </Form.Label>
+                            <div>{location}</div>
                         </Form.Group>
 
                         <Form.Group className='m-px'>
-                            <Form.Control 
-                                type="text" 
-                                placeholder="Employee ID"
-                                required
-                                onChange={(e) =>setEmpId(e.target.value)} 
-                                value={emp_id}
-                                className='form-control-input'
-                                disabled
-                            >
-                            </Form.Control>
+                            <Form.Label className='font-bold'>Employee ID : </Form.Label>
+                            <div>{emp_id}</div>
                         </Form.Group>
                         
                         <Form.Group className='m-px'>
-                            <Form.Control 
-                                type="text" 
-                                placeholder="Company"
-                                required
-                                onChange={(e) =>setCompany(e.target.value)} 
-                                value={company}
-                                className='form-control-input'
-                                disabled
-                            >
-                            </Form.Control>
+                            <Form.Label className='font-bold'>Company : </Form.Label>
+                            <div>{company}</div>
                         </Form.Group>
 
                     </Modal.Body>
@@ -545,10 +540,11 @@ const EmpList = (props) => {
                     {/* Create Employee */}
                     {editForm===false&&(
                     <>
-                        <Card.Header><h1 className='font-bold'>Create Employee</h1></Card.Header>
+                        <h2 className='font-bold'>Create Employee</h2>
+                        <hr></hr>
                         <Form noValidate validated={validated} {...props}>
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Name</Form.Label>
+                                <Form.Label className='font-bold color-white'>Name :</Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Name"
@@ -564,7 +560,7 @@ const EmpList = (props) => {
 
                             <Form.Group className='m-px'>
                                 <Form.Label className='font-bold color-white'>
-                                    Phone
+                                    Phone :
                                 </Form.Label>
                                 <Form.Control 
                                     type="text" 
@@ -580,7 +576,7 @@ const EmpList = (props) => {
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Email</Form.Label>
+                                <Form.Label className='font-bold color-white'>Email :</Form.Label>
                                 <Form.Control 
                                     type="email" 
                                     placeholder="Email"
@@ -595,7 +591,7 @@ const EmpList = (props) => {
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Location</Form.Label>
+                                <Form.Label className='font-bold color-white'>Location :</Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Location"
@@ -609,7 +605,7 @@ const EmpList = (props) => {
                             </Form.Group>
 
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Employee ID</Form.Label>
+                                <Form.Label className='font-bold color-white'>Employee ID :</Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Employee ID"
@@ -624,7 +620,7 @@ const EmpList = (props) => {
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Company</Form.Label>
+                                <Form.Label className='font-bold color-white'>Company :</Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Company"
