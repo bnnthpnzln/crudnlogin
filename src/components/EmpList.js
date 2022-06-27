@@ -8,8 +8,11 @@ import axios from "axios"
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import ExpireToken from './ExpireToken';
+import _ from 'lodash';
 
 const EmpList = (props) => {
+
+    const _ = require("lodash"); 
     const navigate = useNavigate();
     
     const [show, setShow] = useState(false);
@@ -182,7 +185,7 @@ const EmpList = (props) => {
             if(!response)return;
             reloadTable() ;
             setDeleteId('');
-            alert('Successfully Deleted!')
+            alert('Successfully Deleted!');
             setShowDeleteModal(false);
         }).catch(err=>{
             console.error(err);
@@ -207,8 +210,9 @@ const EmpList = (props) => {
             setEmpId('');
             setCompany('');
             alert('Successfully Updated!');
-            setEditForm(false);
+            
         }
+        setEditForm(false);
         setValidated(true);
         e.preventDefault();
         axios( {
@@ -305,33 +309,45 @@ const EmpList = (props) => {
             
             <Modal.Body>
                 <Form.Group className='m-px'>
-                    <Form.Label className='font-bold'>Name : </Form.Label>
-                    <div>{name}</div>
+                    <div className='flex'>
+                        <Form.Label className='font-bold m-px'>Name : </Form.Label>
+                        <div className='m-px'>{name}</div>
+                    </div>
                 </Form.Group>
 
                 <Form.Group className='m-px'>
-                    <Form.Label className='font-bold'>Phone : </Form.Label>
-                    <div>{phone}</div>
+                    <div className='flex'>
+                        <Form.Label className='font-bold m-px'>Phone : </Form.Label>
+                        <div className='m-px'>{phone}</div>
+                    </div>
                 </Form.Group>
                 
                 <Form.Group className='m-px'>
-                    <Form.Label className='font-bold'>Email : </Form.Label>
-                    <div>{email}</div>
+                    <div className='flex'>
+                        <Form.Label className='font-bold m-px'>Email : </Form.Label>
+                        <div className='m-px'>{email}</div>
+                    </div>
                 </Form.Group>
                 
                 <Form.Group className='m-px'>
-                    <Form.Label className='font-bold'>Location : </Form.Label>
-                    <div>{location}</div>
+                    <div className='flex'>
+                        <Form.Label className='font-bold m-px'>Location : </Form.Label>
+                        <div className='m-px'>{location}</div>
+                    </div>
                 </Form.Group>
 
                 <Form.Group className='m-px'>
-                    <Form.Label className='font-bold'>Employee ID : </Form.Label>
-                    <div>{emp_id}</div>
+                    <div className='flex'>
+                        <Form.Label className='font-bold m-px'>Employee ID : </Form.Label>
+                        <div className='m-px'>{emp_id}</div>
+                    </div>
                 </Form.Group>
                 
                 <Form.Group className='m-px'>
-                    <Form.Label className='font-bold'>Company : </Form.Label>
-                    <div>{company}</div>
+                    <div className='flex'>
+                        <Form.Label className='font-bold m-px'>Company : </Form.Label>
+                        <div className='m-px'>{company}</div>
+                    </div>
                 </Form.Group>
 
             </Modal.Body>
@@ -402,7 +418,7 @@ const EmpList = (props) => {
             centered
     
         >
-            <Modal.Body className='text-center'>
+            <Modal.Body>
 
                     <Modal.Header closeButton>
                         <Modal.Title className='font-bold'>Confirm Information</Modal.Title>
@@ -419,33 +435,45 @@ const EmpList = (props) => {
                         ></Form.Control>
                     <Modal.Body>
                         <Form.Group className='m-px'>
-                            <Form.Label className='font-bold'>Name : </Form.Label>
-                            <div>{name}</div>
+                            <div className='flex'>
+                                <Form.Label className='font-bold m-px'>Name : </Form.Label>
+                                <div className='m-px'>{name}</div>
+                            </div>
                         </Form.Group>
 
                         <Form.Group className='m-px'>
-                            <Form.Label className='font-bold'>Phone : </Form.Label>
-                            <div>{phone}</div>
+                            <div className='flex'>
+                                <Form.Label className='font-bold m-px'>Phone : </Form.Label>
+                                <div className='m-px'>{phone}</div>
+                            </div>
                         </Form.Group>
                         
                         <Form.Group className='m-px'>
-                            <Form.Label className='font-bold'>Email : </Form.Label>
-                            <div>{email}</div>
+                            <div className='flex'>
+                                <Form.Label className='font-bold m-px'>Email : </Form.Label>
+                                <div className='m-px'>{email}</div>
+                            </div>
                         </Form.Group>
                         
                         <Form.Group className='m-px'>
-                            <Form.Label className='font-bold'>Location : </Form.Label>
-                            <div>{location}</div>
+                            <div className='flex'>
+                                <Form.Label className='font-bold m-px'>Location : </Form.Label>
+                                <div className='m-px'>{location}</div>
+                            </div>
                         </Form.Group>
 
                         <Form.Group className='m-px'>
-                            <Form.Label className='font-bold'>Employee ID : </Form.Label>
-                            <div>{emp_id}</div>
+                            <div className='flex'>
+                                <Form.Label className='font-bold m-px'>Employee ID : </Form.Label>
+                                <div className='m-px'>{emp_id}</div>
+                            </div>
                         </Form.Group>
                         
                         <Form.Group className='m-px'>
-                            <Form.Label className='font-bold'>Company : </Form.Label>
-                            <div>{company}</div>
+                            <div className='flex'>
+                                <Form.Label className='font-bold m-px'>Company : </Form.Label>
+                                <div className='m-px'>{company}</div>
+                            </div>
                         </Form.Group>
 
                     </Modal.Body>
@@ -474,26 +502,25 @@ const EmpList = (props) => {
         </Modal>
 
         <Row>
-            <Col className='m-px'>
+            <Col className='m-px' style={{width:'75%'}}>
                 <div className='shadow bg-gray-100 p-px border-radius'>
-                    <Table id='table-list' responsive>
-
+                    <Table responsive>
                         <thead> 
-                            <tr className='font-bold'>
-                                <td>ID</td>
-                                <td>Name</td>
-                                <td>Phone</td>
-                                <td>Email</td>
-                                <td>Location</td>
-                                <td>Employee ID</td>
-                                <td>Company</td>
-                                <td>Created At</td>
-                                <td>Updated At</td>
-                                <td>Action</td>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Location</th>
+                                <th>Employee ID</th>
+                                <th>Company</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
-                        <tbody id="table-list-body">
+                        <tbody >
                             
 
                             {data.map((u)=>(
@@ -534,14 +561,14 @@ const EmpList = (props) => {
                 </div>
             </Col>
             
-            <Col className='m-px'>
-                <div className='shadow bg-gray-100 p-px border-radius m-auto'>
+            <Col className='m-px' style={{width:'25%'}}>
+                <div className='form-inputs shadow bg-gray-100 p-px border-radius m-auto'>
                     
                     {/* Create Employee */}
                     {editForm===false&&(
                     <>
-                        <h2 className='font-bold'>Create Employee</h2>
-                        <hr></hr>
+                        <h2 className='font-bold color-white'>Create Employee</h2>
+                       
                         <Form noValidate validated={validated} {...props}>
                             <Form.Group className='m-px'>
                                 <Form.Label className='font-bold color-white'>Name :</Form.Label>
@@ -648,7 +675,7 @@ const EmpList = (props) => {
                     {/* Update Employee */}
                     {editForm===true&&(
                     <>
-                        <h1 className='font-bold'>Update Employee</h1>
+                        <h2 className='font-bold color-white'>Update Employee</h2>
                         <Form noValidate onSubmit={handleEditSubmit} validated={validated} {...props}>
 
                             <Form.Group className='m-px'>
