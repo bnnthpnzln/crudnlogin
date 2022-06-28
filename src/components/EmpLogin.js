@@ -86,6 +86,7 @@ const EmpLogin = (props) => {
                 localStorage.setItem('token', res.token);
                 localStorage.setItem('email', email);
                 swal.fire({
+                    icon: 'success',
                     title:'Logged in.',
                     text:'User successfully logged in.',
                 });
@@ -109,30 +110,6 @@ const EmpLogin = (props) => {
         <Container>
             <Row>
                 <Col style={{ margin:5 }}>
-
-                <Modal 
-                    show={showSuccess} 
-                    // onHide={handleClose} 
-                    {...props}
-                    size="sm"
-                    aria-labelledby="contained-modal-title-vcenter"
-                    centered
-                    backdrop="static"
-                >
-                    <Modal.Body className='text-center'>
-                        {/* <img src={warning} alt="warning icon" /> */}
-                        <h4>Succesfully Login!</h4>
-                        <Button 
-                            type='submit'
-                            variant="success" 
-                            className='m-px btn1' 
-                            onClick={(e)=>handleSubmitLogin()}
-                        >
-                            Ok
-                        </Button>
-                        
-                    </Modal.Body>
-                </Modal>
 
                 <Card 
                         style={{ 

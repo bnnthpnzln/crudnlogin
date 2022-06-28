@@ -49,6 +49,7 @@ const EmpList = (props) => {
     const Logout = () => {
         localStorage.removeItem('token');
         swal.fire({
+            icon: 'success',
             title:'Logged out.',
             text:'User successfully logged out.',
         });
