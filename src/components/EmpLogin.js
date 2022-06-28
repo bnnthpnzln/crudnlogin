@@ -32,11 +32,11 @@ const EmpLogin = (props) => {
     const [error, setError] = useState('');
     const [error2, setError2] = useState('');
 
-    const [show, setShow] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
+    // const [show, setShow] = useState(false);
+    // const [showSuccess, setShowSuccess] = useState(false);
 
-    const handleCloseSuccess = () => setShow(false);
-    const handleShowSuccess = () => setShow(true);
+    // const handleCloseSuccess = () => setShow(false);
+    // const handleShowSuccess = () => setShow(true);
 
     const validateLogin = (error) => {
         if(error){
@@ -110,8 +110,7 @@ const EmpLogin = (props) => {
         <Container>
             <Row>
                 <Col style={{ margin:5 }}>
-
-                <Card 
+                    <Card 
                         style={{ 
                             width: '25rem',
                             padding: '10px'
@@ -128,6 +127,7 @@ const EmpLogin = (props) => {
                                         Invalid Users!
                                     </h5>
                                 </Alert> */}
+                                
                                 {error && (
                                     <p
                                         severity="error" 
