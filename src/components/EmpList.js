@@ -10,7 +10,11 @@ import Form from 'react-bootstrap/Form';
 import ExpireToken from './ExpireToken';
 import _ from 'lodash';
 import empty from '../img/empty.jpg';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
+
+const swal = withReactContent(Swal);
 const EmpList = (props) => {
 
     const navigate = useNavigate();
@@ -44,6 +48,10 @@ const EmpList = (props) => {
 
     const Logout = () => {
         localStorage.removeItem('token');
+        swal.fire({
+            title:'Logged out.',
+            text:'User successfully logged out.',
+        });
         navigate('/');
     }
 

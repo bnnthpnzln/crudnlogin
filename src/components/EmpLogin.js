@@ -12,7 +12,11 @@ import auth from './Auth'
 import user from '../img/user1.png'
 import ExpireToken from './ExpireToken'
 import Modal from 'react-bootstrap/Modal'
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
+
+const swal = withReactContent(Swal);
 
 const EmpLogin = (props) => {
 
@@ -25,8 +29,8 @@ const EmpLogin = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // const [error, setError] = useState('');
-    // const [error2, setError2] = useState('');
+    const [error, setError] = useState('');
+    const [error2, setError2] = useState('');
 
     const [show, setShow] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -34,8 +38,36 @@ const EmpLogin = (props) => {
     const handleCloseSuccess = () => setShow(false);
     const handleShowSuccess = () => setShow(true);
 
+    const validateLogin = (error) => {
+        if(error){
+            swal.fire({
+                title:'Email and Password Mismatch',
+                text:'Invalid Account.',
+            });
+            return false;
+        }
+        if(email.length === 0 || password.length === 0){
+            swal.fire({
+                title:'Invalid Input',
+                text:'Text Fields cannot be empty.',
+            });
+            return false;
+        }
+        if(password.length <= 7){
+            swal.fire({
+                title:'Invalid Input',
+                text:'Password should not be less than 8 characters.',
+            });
+            return false;
+        }
+
+        return true;
+    };
     const handleSubmitLogin = (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        if(!validateLogin()){
+            return
+        };
         axios( {
             headers:{
                 "Content-Type": "multipart/form-data"
@@ -51,22 +83,22 @@ const EmpLogin = (props) => {
             let res = result.data
             console.log(JSON.stringify(res))
             if(res.status){
-                localStorage.setItem('token', res.token)
-                localStorage.setItem('email', email)
+                localStorage.setItem('token', res.token);
+                localStorage.setItem('email', email);
+                swal.fire({
+                    title:'Logged in.',
+                    text:'User successfully logged in.',
+                });
                 if(auth.isAuth() === null) return;
                 navigate("/Emplist");
             }
-            // else if( email === "" || password === ""){
-            //     setError('*Fields are required');
-            // }else{
-            //     setError2('*Invalid Inputs!');
-            // }
         })
         .catch(function (error){
-            console.log(error);
-            if(error.response.status === 401){
-                setShow(true);
-            }
+            validateLogin(error);
+            // console.log(error);
+            // if(error.response.status === 401){
+            //     setShow(true);
+            // }
         })
     }
 
@@ -114,12 +146,12 @@ const EmpLogin = (props) => {
                         <Card.Body>
                             <Form onSubmit={handleSubmitLogin}>
                                 
-                                <Alert show={show} variant="danger" onClose={() => setShow(false)} dismissible>
+                                {/* <Alert show={show} variant="danger" onClose={() => setShow(false)} dismissible>
                                     <h5>
                                         Invalid Users!
                                     </h5>
-                                </Alert>
-                                {/* {error && (
+                                </Alert> */}
+                                {error && (
                                     <p
                                         severity="error" 
                                         onClick={() => 
@@ -142,7 +174,7 @@ const EmpLogin = (props) => {
                                     >
                                         {props.error2 || error2}
                                     </p>
-                                )}  */}
+                                )} 
 
                                 <Form.Group style={{
                                     margin:5
@@ -158,7 +190,7 @@ const EmpLogin = (props) => {
                                         Email:
                                     </Form.Label>
                                     <Form.Control 
-                                        type="text" 
+                                        type="email" 
                                         placeholder="Email"
                                         value={email}
                                         onChange={(e) =>setEmail(e.target.value)}
@@ -193,7 +225,7 @@ const EmpLogin = (props) => {
                                     type = "submit"
                                     style={{ margin: 10 }}
                                     className='btn1 bg-color-white'
-                                    onClick={handleShowSuccess}
+                                    // onClick={handleShowSuccess}
                                 >
                                         Login
                                 </Button>
