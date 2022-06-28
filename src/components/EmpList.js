@@ -210,7 +210,10 @@ const EmpList = (props) => {
             if(!response)return;
             reloadTable() ;
             setDeleteId('');
-            alert('Successfully Deleted!');
+            swal.fire({
+                icon: 'success',
+                text:'Successfully Deleted.',
+            });
             setShowDeleteModal(false);
         }).catch(err=>{
             console.error(err);
