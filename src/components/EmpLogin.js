@@ -11,6 +11,7 @@ import axios from "axios"
 import auth from './Auth'
 import user from '../img/user1.png'
 import ExpireToken from './ExpireToken'
+import Modal from 'react-bootstrap/Modal'
 
 
 const EmpLogin = (props) => {
@@ -28,6 +29,10 @@ const EmpLogin = (props) => {
     // const [error2, setError2] = useState('');
 
     const [show, setShow] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    const handleCloseSuccess = () => setShow(false);
+    const handleShowSuccess = () => setShow(true);
 
     const handleSubmitLogin = (e) => {
         e.preventDefault()
@@ -48,7 +53,6 @@ const EmpLogin = (props) => {
             if(res.status){
                 localStorage.setItem('token', res.token)
                 localStorage.setItem('email', email)
-                localStorage.setItem('password', password)
                 if(auth.isAuth() === null) return;
                 navigate("/Emplist");
             }
@@ -73,6 +77,31 @@ const EmpLogin = (props) => {
         <Container>
             <Row>
                 <Col style={{ margin:5 }}>
+
+                <Modal 
+                    show={showSuccess} 
+                    // onHide={handleClose} 
+                    {...props}
+                    size="sm"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    backdrop="static"
+                >
+                    <Modal.Body className='text-center'>
+                        {/* <img src={warning} alt="warning icon" /> */}
+                        <h4>Succesfully Login!</h4>
+                        <Button 
+                            type='submit'
+                            variant="success" 
+                            className='m-px btn1' 
+                            onClick={(e)=>handleSubmitLogin()}
+                        >
+                            Ok
+                        </Button>
+                        
+                    </Modal.Body>
+                </Modal>
+
                 <Card 
                         style={{ 
                             width: '25rem',
@@ -164,6 +193,7 @@ const EmpLogin = (props) => {
                                     type = "submit"
                                     style={{ margin: 10 }}
                                     className='btn1 bg-color-white'
+                                    onClick={handleShowSuccess}
                                 >
                                         Login
                                 </Button>

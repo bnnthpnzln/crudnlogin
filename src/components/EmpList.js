@@ -73,7 +73,6 @@ const EmpList = (props) => {
     const reloadTable = () => {
         if(ExpireToken.ExpToken()){
             invalidTokenAlert();
-            localStorage.setItem('token', null);
             return navigate('/');
         }
         var config = {
@@ -96,7 +95,6 @@ const EmpList = (props) => {
    const openView = (id) => {
          if(ExpireToken.ExpToken()){
             invalidTokenAlert();
-            localStorage.setItem('token', null);
             return navigate('/');
         }
         axios( {
@@ -135,7 +133,6 @@ const EmpList = (props) => {
     const handleCreateUser = (e) =>{
          if(ExpireToken.ExpToken()){
             invalidTokenAlert();
-            localStorage.setItem('token', null);
             return navigate('/');
         }
         const form = e.currentTarget;
@@ -184,7 +181,6 @@ const EmpList = (props) => {
     const handleShowDelete = (id) =>{
          if(ExpireToken.ExpToken()){
             invalidTokenAlert();
-            localStorage.setItem('token', null);
             return navigate('/');
         }
         if(!id) return;
@@ -215,7 +211,6 @@ const EmpList = (props) => {
     const handleEditSubmit = (e) => {
          if(ExpireToken.ExpToken()){
             invalidTokenAlert();
-            localStorage.setItem('token', null);
             return navigate('/');
         }
         const formEdit = e.currentTarget;
@@ -533,6 +528,7 @@ const EmpList = (props) => {
                                 <th>Phone</th>
                                 <th>Email</th>
                                 <th>Location</th>
+                                <th>Employee ID</th>
                                 <th>Company</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
@@ -545,11 +541,12 @@ const EmpList = (props) => {
                             {data.map((u)=>(
 
                             <tr key={u.id}>
-                                <td>{u.emp_id}</td>
+                                <td>{u.id}</td>
                                 <td>{u.name}</td>
                                 <td>{u.phone}</td>
                                 <td>{u.email}</td>
                                 <td>{u.location}</td>
+                                <td>{u.emp_id}</td>
                                 <td>{u.company}</td>
                                 <td>{u.created_at}</td>
                                 <td>{u.updated_at}</td>
@@ -733,7 +730,7 @@ const EmpList = (props) => {
                                     type="text" 
                                     required
                                     placeholder="Phone Number"
-                                    pattern='^[0-9]+$'
+                                    // pattern='^[0-9]+$'
                                     value={phone}
                                     onChange={(e) =>setPhone(e.target.value)}
                                     className='form-control-input'
