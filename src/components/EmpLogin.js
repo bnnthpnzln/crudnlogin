@@ -86,9 +86,9 @@ const EmpLogin = (props) => {
                             <Form onSubmit={handleSubmitLogin}>
                                 
                                 <Alert show={show} variant="danger" onClose={() => setShow(false)} dismissible>
-                                    <p>
+                                    <h5>
                                         Invalid Users!
-                                    </p>
+                                    </h5>
                                 </Alert>
                                 {/* {error && (
                                     <p

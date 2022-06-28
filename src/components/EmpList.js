@@ -9,6 +9,7 @@ import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import ExpireToken from './ExpireToken';
 import _ from 'lodash';
+import empty from '../img/empty.jpg';
 
 const EmpList = (props) => {
 
@@ -25,10 +26,19 @@ const EmpList = (props) => {
     const handleEditClose = () => setShowViewEditModal(false);
     const handleShowEdit = () => setShowViewEditModal(true);
 
-    const handleCreateClose = () => setShowCreateModal(false);
+    const handleCreateClose = () =>{ 
+        setName('');
+        setPhone('');
+        setEmail('');
+        setLocation('');
+        setEmpId('');
+        setCompany('');
+        setShowCreateModal(false);
+    }
     const handleShowCreate = () => setShowCreateModal(true);
 
     const handleCloseDelete = () => setShowDeleteModal(false);
+
 
     const [editForm, setEditForm]=useState(false);
 
@@ -133,16 +143,16 @@ const EmpList = (props) => {
         if(form.checkValidity() === false){
             e.preventDefault();
             e.stopPropagation();
-        }else{
+        }
+        else{
             setName('');
             setPhone('');
             setEmail('');
             setLocation('');
             setEmpId('');
             setCompany('');
-            alert('Successfully Created!');
-            setEditForm(false);
         }
+        setEditForm(false);
         setValidated(true);
         e.preventDefault();
         axios( {
@@ -163,8 +173,8 @@ const EmpList = (props) => {
         })
         .then(result=>{
             if(result){
-            reloadTable();
-            handleCreateClose();
+                reloadTable();
+                handleCreateClose();
             }
         }).catch((err)=>{
                 console.log(err)
@@ -220,8 +230,6 @@ const EmpList = (props) => {
             setLocation('');
             setEmpId('');
             setCompany('');
-            alert('Successfully Updated!');
-            
         }
         setEditForm(false);
         setValidated(true);
@@ -378,7 +386,7 @@ const EmpList = (props) => {
                     className='m-px btn1' 
                     onClick={handleEditClose}
                 >
-                    No
+                    Retry
                 </Button>
             </Modal.Footer>    
             
@@ -525,7 +533,6 @@ const EmpList = (props) => {
                                 <th>Phone</th>
                                 <th>Email</th>
                                 <th>Location</th>
-                                <th>Employee ID</th>
                                 <th>Company</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
@@ -538,12 +545,11 @@ const EmpList = (props) => {
                             {data.map((u)=>(
 
                             <tr key={u.id}>
-                                <td>{u.id}</td>
+                                <td>{u.emp_id}</td>
                                 <td>{u.name}</td>
                                 <td>{u.phone}</td>
                                 <td>{u.email}</td>
                                 <td>{u.location}</td>
-                                <td>{u.emp_id}</td>
                                 <td>{u.company}</td>
                                 <td>{u.created_at}</td>
                                 <td>{u.updated_at}</td>
@@ -573,25 +579,15 @@ const EmpList = (props) => {
                 </>}
                 
                 {data.length < 1 && 
-                    <Table responsive>
-                        <thead> 
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Email</th>
-                                <th>Location</th>
-                                <th>Employee ID</th>
-                                <th>Company</th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <div>No Data</div>
-                        </tbody>
-                    </Table>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <h1>Empty Data</h1>
+                        <img src={empty} alt='empty pic' style={{width: '300px', height: '300px'}}></img>
+                    </div>
+                            
                 }
 
                 </div>
@@ -628,14 +624,14 @@ const EmpList = (props) => {
                                 <Form.Control 
                                     type="text" 
                                     required
-                                    placeholder="Phone Number (09)-(9)"
-                                    pattern='^(09|\+639)\d{9}$'
+                                    placeholder="Phone Number"
+                                    pattern='^[0-9]+$'
                                     value={phone}
                                     onChange={(e) =>setPhone(e.target.value)}
                                     className='form-control-input'
                                 >
                                 </Form.Control>
-                                    <Form.Control.Feedback type='invalid'>Please input valid Phone Number!</Form.Control.Feedback>
+                                    <Form.Control.Feedback type='invalid'>Phone must be a number!</Form.Control.Feedback>
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
@@ -679,7 +675,7 @@ const EmpList = (props) => {
                                     className='form-control-input'
                                 >
                                 </Form.Control>
-                                <Form.Control.Feedback type='invalid'>Please input valid Employee ID!</Form.Control.Feedback>
+                                <Form.Control.Feedback type='invalid'>Employee ID must be a number!</Form.Control.Feedback>
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
@@ -699,7 +695,7 @@ const EmpList = (props) => {
                             <Button 
                                 type="button" 
                                 style={{ margin: 10 }}
-                                className='btn1'
+                                className='btn1 bg-color-white'
                                 variant='primary'
                                 onClick={handleShowCreate}
                             >
@@ -737,13 +733,13 @@ const EmpList = (props) => {
                                     type="text" 
                                     required
                                     placeholder="Phone Number"
-                                    // pattern='^(09|\+639)\d{9}$'
+                                    pattern='^[0-9]+$'
                                     value={phone}
                                     onChange={(e) =>setPhone(e.target.value)}
                                     className='form-control-input'
                                 >
                                 </Form.Control>
-                                    <Form.Control.Feedback type='invalid'>Please input valid Phone Number!</Form.Control.Feedback>
+                                    <Form.Control.Feedback type='invalid'>Phone must be a number!</Form.Control.Feedback>
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
@@ -787,7 +783,7 @@ const EmpList = (props) => {
                                     className='form-control-input'
                                 >
                                 </Form.Control>
-                                <Form.Control.Feedback type='invalid'>Please input valid Employee ID!</Form.Control.Feedback>
+                                <Form.Control.Feedback type='invalid'>Employee ID must be a number!</Form.Control.Feedback>
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
@@ -807,7 +803,7 @@ const EmpList = (props) => {
                             <Button 
                                 type="button" 
                                 style={{ margin: 10 }}
-                                className='btn1'
+                                className='btn1 bg-color-white'
                                 variant='primary'
                                 onClick={()=>handleShowEdit()}
                             >
