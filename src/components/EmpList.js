@@ -12,7 +12,6 @@ import _ from 'lodash';
 
 const EmpList = (props) => {
 
-    const _ = require("lodash"); 
     const navigate = useNavigate();
     
     const [show, setShow] = useState(false);
@@ -64,6 +63,7 @@ const EmpList = (props) => {
     const reloadTable = () => {
         if(ExpireToken.ExpToken()){
             invalidTokenAlert();
+            localStorage.setItem('token', null);
             return navigate('/');
         }
         var config = {
@@ -73,14 +73,20 @@ const EmpList = (props) => {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`, 
             }
         };
-        axios(config).then((response)=>{
-            setData(response.data.data.employees)
+        axios(config)
+        .then((response)=>{
+            const _ = require("lodash");
+            let res = response.data
+            let employeeList = res.data.employees
+            let sort = _.orderBy(employeeList, ['created_at'], ['desc'])
+            setData(sort)
         });
     }
     
    const openView = (id) => {
          if(ExpireToken.ExpToken()){
             invalidTokenAlert();
+            localStorage.setItem('token', null);
             return navigate('/');
         }
         axios( {
@@ -119,6 +125,7 @@ const EmpList = (props) => {
     const handleCreateUser = (e) =>{
          if(ExpireToken.ExpToken()){
             invalidTokenAlert();
+            localStorage.setItem('token', null);
             return navigate('/');
         }
         const form = e.currentTarget;
@@ -155,16 +162,19 @@ const EmpList = (props) => {
             }
         })
         .then(result=>{
-            if(result) reloadTable();
+            if(result){
+            reloadTable();
             handleCreateClose();
+            }
         }).catch((err)=>{
-            console.log(err)
+                console.log(err)
         })
     }
 
     const handleShowDelete = (id) =>{
          if(ExpireToken.ExpToken()){
             invalidTokenAlert();
+            localStorage.setItem('token', null);
             return navigate('/');
         }
         if(!id) return;
@@ -195,6 +205,7 @@ const EmpList = (props) => {
     const handleEditSubmit = (e) => {
          if(ExpireToken.ExpToken()){
             invalidTokenAlert();
+            localStorage.setItem('token', null);
             return navigate('/');
         }
         const formEdit = e.currentTarget;
@@ -504,6 +515,8 @@ const EmpList = (props) => {
         <Row>
             <Col className='m-px' style={{width:'75%'}}>
                 <div className='shadow bg-gray-100 p-px border-radius'>
+                
+                {data.length > 0 && <>
                     <Table responsive>
                         <thead> 
                             <tr>
@@ -522,7 +535,6 @@ const EmpList = (props) => {
 
                         <tbody >
                             
-
                             {data.map((u)=>(
 
                             <tr key={u.id}>
@@ -558,6 +570,30 @@ const EmpList = (props) => {
                             ))}
                         </tbody>
                     </Table>
+                </>}
+                
+                {data.length < 1 && 
+                    <Table responsive>
+                        <thead> 
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Location</th>
+                                <th>Employee ID</th>
+                                <th>Company</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <div>No Data</div>
+                        </tbody>
+                    </Table>
+                }
+
                 </div>
             </Col>
             

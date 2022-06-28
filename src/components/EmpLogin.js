@@ -5,6 +5,7 @@ import  Card  from "react-bootstrap/card"
 import Form from 'react-bootstrap/form'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
+import Alert from 'react-bootstrap/Alert'
 import { useState, useEffect } from "react"
 import axios from "axios"
 import auth from './Auth'
@@ -23,8 +24,10 @@ const EmpLogin = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const [error, setError] = useState('');
-    const [error2, setError2] = useState('');
+    // const [error, setError] = useState('');
+    // const [error2, setError2] = useState('');
+
+    const [show, setShow] = useState(false);
 
     const handleSubmitLogin = (e) => {
         e.preventDefault()
@@ -47,11 +50,18 @@ const EmpLogin = (props) => {
                 localStorage.setItem('email', email)
                 localStorage.setItem('password', password)
                 if(auth.isAuth() === null) return;
-                navigate("/Emplist")
-            }else if( email === "" || password === ""){
-                setError('*Fields are required');
-            }else{
-                setError2('*Invalid Inputs!');
+                navigate("/Emplist");
+            }
+            // else if( email === "" || password === ""){
+            //     setError('*Fields are required');
+            // }else{
+            //     setError2('*Invalid Inputs!');
+            // }
+        })
+        .catch(function (error){
+            console.log(error);
+            if(error.response.status === 401){
+                setShow(true);
             }
         })
     }
@@ -74,8 +84,13 @@ const EmpLogin = (props) => {
                         <img src={user} alt="user logo" className='logo'/>
                         <Card.Body>
                             <Form onSubmit={handleSubmitLogin}>
-
-                                {error && (
+                                
+                                <Alert show={show} variant="danger" onClose={() => setShow(false)} dismissible>
+                                    <p>
+                                        Invalid Users!
+                                    </p>
+                                </Alert>
+                                {/* {error && (
                                     <p
                                         severity="error" 
                                         onClick={() => 
@@ -89,7 +104,7 @@ const EmpLogin = (props) => {
                                 )}
 
                                 {error2 && (
-                                    <p 
+                                    <p
                                         severity="error2" 
                                         onClick={() => 
                                         setError2(null)}
@@ -98,7 +113,7 @@ const EmpLogin = (props) => {
                                     >
                                         {props.error2 || error2}
                                     </p>
-                                )}
+                                )}  */}
 
                                 <Form.Group style={{
                                     margin:5
