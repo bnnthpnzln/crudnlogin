@@ -83,6 +83,28 @@ const EmpList = (props) => {
     const [deleteId, setDeleteId] = useState('');
     // const [created_at, setCreatedAt] = useState('');
     // const [updated_at, setUpdatedAt] = useState('');
+
+    const validateForm = (error) => {
+        if(error || name.length === 0 || phone.length === 0 || email.length === 0 || location === 0 || emp_id === 0 || company === 0){
+            swal.fire({
+                title:'Invalid Input',
+                text:'Text Fields cannot be empty.',
+            });
+            handleCreateClose();
+            return false;
+        }
+    };
+
+    const validateForm2 = (error) => {
+        if(error || name.length === 0 || phone.length === 0 || email.length === 0 || location === 0 || emp_id === 0 || company === 0){
+            swal.fire({
+                title:'Invalid Input',
+                text:'Text Fields cannot be empty.',
+            });
+            handleEditClose();
+            return false;
+        }
+    };
      
     const reloadTable = () => {
         if(ExpireToken.ExpToken()){
@@ -111,6 +133,8 @@ const EmpList = (props) => {
              navigate('/');
              return invalidTokenAlert();
         }
+        // let empData = _.cloneDeep(data.find(id))
+        // console.log(empData)
         axios( {
             headers:{
                 "Content-Type": "application/json",
@@ -162,14 +186,8 @@ const EmpList = (props) => {
             setLocation('');
             setEmpId('');
             setCompany('');
-            swal.fire({
-                icon: 'success',
-                text:'Successfully Added.',
-                showConfirmButton: false,
-                timer: 2000,
-            });
+            setEditForm(false);
         }
-        setEditForm(false);
         setValidated(true);
         e.preventDefault();
         axios( {
@@ -190,11 +208,21 @@ const EmpList = (props) => {
         })
         .then(result=>{
             if (result) {
+                swal.fire({
+                    icon: 'success',
+                    text:'Successfully Added.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
                 reloadTable();
                 handleCreateClose();
             }
-        }).catch((err)=>{
-                console.log(err)
+            if(!validateForm()){
+                return
+            }
+        }).catch((error)=>{
+                console.log(error);
+                validateForm(error);
         })
     }
 
@@ -244,20 +272,17 @@ const EmpList = (props) => {
             e.preventDefault();
             e.stopPropagation();
         }else{
+
             setName('');
             setPhone('');
             setEmail('');
             setLocation('');
             setEmpId('');
             setCompany('');
-            swal.fire({
-                icon: 'success',
-                text:'Successfully Updated.',
-                showConfirmButton: false,
-                timer: 2000,
-            });
+            setEditForm(false);
         }
-        setEditForm(false);
+        let empData = _.cloneDeep(data.find(id))
+        console.log(empData)
         setValidated(true);
         e.preventDefault();
         axios( {
@@ -268,6 +293,7 @@ const EmpList = (props) => {
             method:'PUT', 
             url:`https://gowtham-rest-api-crud.herokuapp.com/employees/${id}`,
             data:{
+                id: id,
                 name: name,
                 phone: phone,
                 email: email,
@@ -278,12 +304,23 @@ const EmpList = (props) => {
         })
         .then(result=>{
             // console.log(data)
-            if(result) 
-            reloadTable();
-            handleEditClose();
+            if(result) {
+                swal.fire({
+                    icon: 'success',
+                    text:'Successfully Updated.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                reloadTable();
+                handleEditClose();
+            }
+            if(!validateForm2()){
+                return
+            }
         })
         .catch(error =>{
-            alert('invalid token', error)
+            console.log(error)
+            validateForm2(error);
         })
     }
 

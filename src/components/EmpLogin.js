@@ -62,6 +62,7 @@ const EmpLogin = (props) => {
 
         return true;
     };
+    
     const handleSubmitLogin = (e) => {
         e.preventDefault();
         if(!validateLogin()){
