@@ -260,6 +260,17 @@ const EmpList = (props) => {
             console.error(err);
         });
     }
+    const compareData = (empData) => {
+        let isValid = false;
+        if(empData.name === name) return isValid;
+        if(empData.email === email) return isValid;
+        if(empData.location === location) return isValid;
+        if(empData.emp_id === emp_id) return isValid;
+        if(empData.company === company) return isValid;
+        if(empData.phone === phone) return isValid;
+        isValid = true;
+        return isValid;
+    }
 
     const handleEditSubmit = (e) => {
          if(ExpireToken.ExpToken()){
@@ -281,8 +292,17 @@ const EmpList = (props) => {
             setCompany('');
             setEditForm(false);
         }
-        let empData = _.cloneDeep(data.find(id))
-        console.log(empData)
+        let empData = _.cloneDeep(data.find(data => data.id === id ))
+        if(!compareData(empData)){
+            swal.fire({
+                    icon: 'error',
+                    text:'No Changes in Data.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                })
+            handleEditClose();
+            return;
+        };
         setValidated(true);
         e.preventDefault();
         axios( {
