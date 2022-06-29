@@ -8,12 +8,12 @@ import E404 from './components/E404';
 function App() {
   return (
     <div>
-        <section>
+        {/* <section>
           <div className="color"></div>
           <div className="color"></div>
           <div className="color"></div>
           <div className="color"></div>
-        </section>
+        </section> */}
         <Router>
           <Routes>
             <Route path="/" element={<EmpLogin />} />

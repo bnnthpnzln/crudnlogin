@@ -12,6 +12,7 @@ import _ from 'lodash';
 import empty from '../img/empty.jpg';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { FaTrashAlt, FaEdit} from 'react-icons/fa';
 
 
 const swal = withReactContent(Swal);
@@ -57,7 +58,11 @@ const EmpList = (props) => {
     }
 
     const invalidTokenAlert = () => {
-        window.alert("Token Invalid. Please login again.");
+        swal.fire({
+            icon: 'warning',
+            title:'Logged out.',
+            text:'Token Expired, Please Login again.',
+        });
     }
 
     const [data, setData] = useState([])
@@ -81,8 +86,8 @@ const EmpList = (props) => {
      
     const reloadTable = () => {
         if(ExpireToken.ExpToken()){
-            invalidTokenAlert();
-            return navigate('/');
+             navigate('/');
+             return invalidTokenAlert();
         }
         var config = {
             method: 'get',
@@ -103,8 +108,8 @@ const EmpList = (props) => {
     
    const openView = (id) => {
          if(ExpireToken.ExpToken()){
-            invalidTokenAlert();
-            return navigate('/');
+             navigate('/');
+             return invalidTokenAlert();
         }
         axios( {
             headers:{
@@ -141,8 +146,8 @@ const EmpList = (props) => {
 
     const handleCreateUser = (e) =>{
          if(ExpireToken.ExpToken()){
-            invalidTokenAlert();
-            return navigate('/');
+            navigate('/');
+            return invalidTokenAlert();
         }
         const form = e.currentTarget;
         // console.log(form)
@@ -157,6 +162,12 @@ const EmpList = (props) => {
             setLocation('');
             setEmpId('');
             setCompany('');
+            swal.fire({
+                icon: 'success',
+                text:'Successfully Added.',
+                showConfirmButton: false,
+                timer: 1500,
+            });
         }
         setEditForm(false);
         setValidated(true);
@@ -178,7 +189,7 @@ const EmpList = (props) => {
             }
         })
         .then(result=>{
-            if(result){
+            if (result) {
                 reloadTable();
                 handleCreateClose();
             }
@@ -189,8 +200,8 @@ const EmpList = (props) => {
 
     const handleShowDelete = (id) =>{
          if(ExpireToken.ExpToken()){
-            invalidTokenAlert();
-            return navigate('/');
+            navigate('/');
+            return invalidTokenAlert();
         }
         if(!id) return;
         setShowDeleteModal(true);
@@ -213,6 +224,8 @@ const EmpList = (props) => {
             swal.fire({
                 icon: 'success',
                 text:'Successfully Deleted.',
+                showConfirmButton: false,
+                timer: 1500,
             });
             setShowDeleteModal(false);
         }).catch(err=>{
@@ -222,8 +235,8 @@ const EmpList = (props) => {
 
     const handleEditSubmit = (e) => {
          if(ExpireToken.ExpToken()){
-            invalidTokenAlert();
-            return navigate('/');
+            navigate('/');
+            return invalidTokenAlert();
         }
         const formEdit = e.currentTarget;
         // console.log(formEdit)
@@ -237,6 +250,12 @@ const EmpList = (props) => {
             setLocation('');
             setEmpId('');
             setCompany('');
+            swal.fire({
+                icon: 'success',
+                text:'Successfully Updated.',
+                showConfirmButton: false,
+                timer: 1500,
+            });
         }
         setEditForm(false);
         setValidated(true);
@@ -259,7 +278,8 @@ const EmpList = (props) => {
         })
         .then(result=>{
             // console.log(data)
-            if(result) reloadTable();
+            if(result) 
+            reloadTable();
             handleEditClose();
         })
         .catch(error =>{
@@ -271,7 +291,7 @@ const EmpList = (props) => {
     <div className='position-relative overflow' style={{padding: '5%'}}>
         <Button 
             variant="danger" 
-            className='btn1' 
+            className='btn1 bg-color-white' 
             onClick={handleShow}
         >
             Logout
@@ -566,17 +586,17 @@ const EmpList = (props) => {
                                     <div className='flex'>
                                         <Button
                                             variant="primary" 
-                                            className='m-px btn1'
+                                            className='m-px btn1 bg-color-white'
                                             onClick={()=>{openView(u.id) }}
                                         >
-                                            Edit
+                                            <FaEdit/>
                                         </Button>
                                         <Button 
                                             onClick={()=>{handleShowDelete(u.id)}}
                                             variant="danger"
                                             className='m-px btn1'
                                         >
-                                            Delete
+                                            <FaTrashAlt/>
                                         </Button>
                                     </div>
                                 </td>
@@ -609,10 +629,10 @@ const EmpList = (props) => {
                     {editForm===false&&(
                     <>
                         <h2 className='font-bold color-white'>Create Employee</h2>
-                       
+                        
                         <Form noValidate validated={validated} {...props}>
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Name :</Form.Label>
+                                <Form.Label className='m-px font-px font-bold color-white'>Name :</Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Name"
@@ -627,7 +647,7 @@ const EmpList = (props) => {
                             </Form.Group>
 
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>
+                                <Form.Label className='m-px font-px font-bold color-white'>
                                     Phone :
                                 </Form.Label>
                                 <Form.Control 
@@ -644,7 +664,7 @@ const EmpList = (props) => {
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Email :</Form.Label>
+                                <Form.Label className='m-px font-px font-bold color-white'>Email :</Form.Label>
                                 <Form.Control 
                                     type="email" 
                                     placeholder="Email"
@@ -659,7 +679,7 @@ const EmpList = (props) => {
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Location :</Form.Label>
+                                <Form.Label className='m-px font-px font-bold color-white'>Location :</Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Location"
@@ -673,7 +693,7 @@ const EmpList = (props) => {
                             </Form.Group>
 
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Employee ID :</Form.Label>
+                                <Form.Label className='m-px font-px font-bold color-white'>Employee ID :</Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Employee ID"
@@ -688,7 +708,7 @@ const EmpList = (props) => {
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Company :</Form.Label>
+                                <Form.Label className='m-px font-px font-bold color-white'>Company :</Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Company"
@@ -704,7 +724,7 @@ const EmpList = (props) => {
                             <Button 
                                 type="button" 
                                 style={{ margin: 10 }}
-                                className='btn1 bg-color-white'
+                                className='btn1 bg-color-white flex'
                                 variant='primary'
                                 onClick={handleShowCreate}
                             >
@@ -717,10 +737,11 @@ const EmpList = (props) => {
                     {editForm===true&&(
                     <>
                         <h2 className='font-bold color-white'>Update Employee</h2>
+                        
                         <Form noValidate onSubmit={handleEditSubmit} validated={validated} {...props}>
 
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Name</Form.Label>
+                                <Form.Label className='m-px font-px font-bold color-white'>Name : </Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Name"
@@ -735,8 +756,8 @@ const EmpList = (props) => {
                             </Form.Group>
 
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>
-                                    Phone
+                                <Form.Label className='m-px font-px font-bold color-white'>
+                                    Phone :
                                 </Form.Label>
                                 <Form.Control 
                                     type="text" 
@@ -752,7 +773,7 @@ const EmpList = (props) => {
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Email</Form.Label>
+                                <Form.Label className='m-px font-px font-bold color-white'>Email :</Form.Label>
                                 <Form.Control 
                                     type="email" 
                                     placeholder="Email"
@@ -767,7 +788,7 @@ const EmpList = (props) => {
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Location</Form.Label>
+                                <Form.Label className='m-px font-px font-bold color-white'>Location :</Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Location"
@@ -781,7 +802,7 @@ const EmpList = (props) => {
                             </Form.Group>
 
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Employee ID</Form.Label>
+                                <Form.Label className='m-px font-px font-bold color-white'>Employee ID :</Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Employee ID"
@@ -796,7 +817,7 @@ const EmpList = (props) => {
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
-                                <Form.Label className='font-bold color-white'>Company</Form.Label>
+                                <Form.Label className='m-px font-px font-bold color-white'>Company :</Form.Label>
                                 <Form.Control 
                                     type="text" 
                                     placeholder="Company"

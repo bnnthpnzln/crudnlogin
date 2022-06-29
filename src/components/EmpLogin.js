@@ -11,7 +11,6 @@ import axios from "axios"
 import auth from './Auth'
 import user from '../img/user1.png'
 import ExpireToken from './ExpireToken'
-import Modal from 'react-bootstrap/Modal'
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -84,7 +83,6 @@ const EmpLogin = (props) => {
             console.log(JSON.stringify(res))
             if(res.status){
                 localStorage.setItem('token', res.token);
-                localStorage.setItem('email', email);
                 swal.fire({
                     icon: 'success',
                     title:'Logged in.',
@@ -108,108 +106,106 @@ const EmpLogin = (props) => {
         breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
     >
         <Container>
-            <Row>
-                <Col style={{ margin:5 }}>
-                    <Card 
-                        style={{ 
-                            width: '25rem',
-                            padding: '10px'
-                        }}
-                        className='card m-auto'
-                    >
-                        <h2 className="h2">Sign Up</h2>
-                        <img src={user} alt="user logo" className='logo'/>
-                        <Card.Body>
-                            <Form onSubmit={handleSubmitLogin}>
-                                
-                                {/* <Alert show={show} variant="danger" onClose={() => setShow(false)} dismissible>
-                                    <h5>
-                                        Invalid Users!
-                                    </h5>
-                                </Alert> */}
-                                
-                                {error && (
-                                    <p
-                                        severity="error" 
-                                        onClick={() => 
-                                        setError(null)}
-                                        variant="danger"
-                                        type='invalid'
-                                        style={{color:'#d0342c'}}
-                                    >
-                                        {props.error || error}
-                                    </p>
-                                )}
-
-                                {error2 && (
-                                    <p
-                                        severity="error2" 
-                                        onClick={() => 
-                                        setError2(null)}
-                                        variant="danger"
-                                        style={{color:'#d0342c'}}
-                                    >
-                                        {props.error2 || error2}
-                                    </p>
-                                )} 
-
-                                <Form.Group style={{
-                                    margin:5
-                                }}>
-                                    <Form.Label 
-                                        className='font-bold' 
-                                        style={{
-                                            color: '#fff',
-                                            fontSize: '18px',
-                                            letterSpacing: '1px'
-                                        }}
-                                    >
-                                        Email:
-                                    </Form.Label>
-                                    <Form.Control 
-                                        type="email" 
-                                        placeholder="Email"
-                                        value={email}
-                                        onChange={(e) =>setEmail(e.target.value)}
-                                        className='form-control-input'
-                                    >
-                                    </Form.Control>
-                                </Form.Group>
-                                <Form.Group style={{
-                                    margin:5
-                                }}>
-                                    <Form.Label 
-                                        className='font-bold'
-                                        style={{
-                                            color: '#fff',
-                                            fontSize: '18px',
-                                            letterSpacing: '1px'
-                                        }}
-                                    >
-                                        Password:
-                                    </Form.Label>
-                                    <Form.Control 
-                                        type="password" 
-                                        placeholder="Password"
-                                        value={password}
-                                        onChange={(e) =>setPassword(e.target.value)}
-                                        className='form-control-input'
-                                        autoComplete=''
-                                    >
-                                    </Form.Control>
-                                </Form.Group>
-                                <Button 
-                                    type = "submit"
-                                    style={{ margin: 10 }}
-                                    className='btn1 bg-color-white'
-                                    // onClick={handleShowSuccess}
+            <Row style={{ margin:5 }}>
+                <Card 
+                    style={{ 
+                        width: '25rem',
+                        padding: '10px'
+                    }}
+                    className='card m-auto'
+                >
+                    <h2 className="h2">Sign Up</h2>
+                    <img src={user} alt="user logo" className='logo'/>
+                    <Card.Body>
+                        <Form onSubmit={handleSubmitLogin}>
+                            
+                            {/* <Alert show={show} variant="danger" onClose={() => setShow(false)} dismissible>
+                                <h5>
+                                    Invalid Users!
+                                </h5>
+                            </Alert> */}
+                            
+                            {error && (
+                                <p
+                                    severity="error" 
+                                    onClick={() => 
+                                    setError(null)}
+                                    variant="danger"
+                                    type='invalid'
+                                    style={{color:'#d0342c'}}
                                 >
-                                        Login
-                                </Button>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                </Col>
+                                    {props.error || error}
+                                </p>
+                            )}
+
+                            {error2 && (
+                                <p
+                                    severity="error2" 
+                                    onClick={() => 
+                                    setError2(null)}
+                                    variant="danger"
+                                    style={{color:'#d0342c'}}
+                                >
+                                    {props.error2 || error2}
+                                </p>
+                            )} 
+
+                            <Form.Group style={{
+                                margin:5
+                            }}>
+                                <Form.Label 
+                                    className='font-bold' 
+                                    style={{
+                                        color: '#fff',
+                                        fontSize: '18px',
+                                        letterSpacing: '1px'
+                                    }}
+                                >
+                                    Email:
+                                </Form.Label>
+                                <Form.Control 
+                                    type="email" 
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) =>setEmail(e.target.value)}
+                                    className='form-control-input'
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            <Form.Group style={{
+                                margin:5
+                            }}>
+                                <Form.Label 
+                                    className='font-bold'
+                                    style={{
+                                        color: '#fff',
+                                        fontSize: '18px',
+                                        letterSpacing: '1px'
+                                    }}
+                                >
+                                    Password:
+                                </Form.Label>
+                                <Form.Control 
+                                    type="password" 
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) =>setPassword(e.target.value)}
+                                    className='form-control-input'
+                                    autoComplete=''
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            <Button 
+                                type = "submit"
+                                style={{ margin: 10 }}
+                                className='btn1 bg-color-white'
+                                // onClick={handleShowSuccess}
+                            >
+                                    Login
+                            </Button>
+                        </Form>
+                    </Card.Body>
+                </Card>
             </Row>
         </Container>
     </ThemeProvider>
