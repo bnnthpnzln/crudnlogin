@@ -281,8 +281,8 @@ const EmpList = (props) => {
             setCompany('');
             setEditForm(false);
         }
-        let empData = _.cloneDeep(data.find(id))
-        console.log(empData)
+        // let empData = _.cloneDeep(data.find(a => a.id === id))
+        // console.log(empData)
         setValidated(true);
         e.preventDefault();
         axios( {
@@ -304,6 +304,8 @@ const EmpList = (props) => {
         })
         .then(result=>{
             // console.log(data)
+            // let empData = _.cloneDeep(data.find(a => a.id === id))
+            // console.log(empData)
             if(result) {
                 swal.fire({
                     icon: 'success',
