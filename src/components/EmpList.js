@@ -648,7 +648,8 @@ const EmpList = (props) => {
                     <div style={{
                         display: 'flex',
                         justifyContent: 'center',
-                        alignItems: 'center'
+                        alignItems: 'center',
+                        overflow:'hidden'
                     }}>
                         <h1>Empty Data</h1>
                         <img src={empty} alt='empty pic' style={{width: '300px', height: '300px'}}></img>
