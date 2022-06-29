@@ -295,7 +295,7 @@ const EmpList = (props) => {
         let empData = _.cloneDeep(data.find(data => data.id === id ))
         if(!compareData(empData)){
             swal.fire({
-                    icon: 'error',
+                    icon: 'info',
                     text:'No Changes in Data.',
                     showConfirmButton: false,
                     timer: 2000,
