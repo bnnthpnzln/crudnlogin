@@ -166,7 +166,7 @@ const EmpList = (props) => {
                 icon: 'success',
                 text:'Successfully Added.',
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 2000,
             });
         }
         setEditForm(false);
@@ -225,7 +225,7 @@ const EmpList = (props) => {
                 icon: 'success',
                 text:'Successfully Deleted.',
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 2000,
             });
             setShowDeleteModal(false);
         }).catch(err=>{
@@ -254,7 +254,7 @@ const EmpList = (props) => {
                 icon: 'success',
                 text:'Successfully Updated.',
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 2000,
             });
         }
         setEditForm(false);
