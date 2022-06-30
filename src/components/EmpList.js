@@ -213,7 +213,7 @@ const EmpList = (props) => {
             navigate('/');
             return invalidTokenAlert();
         }
-        // let empData = _.cloneDeep(data.find(id))
+        // let empData = _.cloneDeep(data.find(id => data.id === id))
         // console.log(empData)
         axios( {
             headers:{
