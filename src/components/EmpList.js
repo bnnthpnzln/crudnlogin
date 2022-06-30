@@ -13,6 +13,7 @@ import empty from '../img/empty.jpg';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { FaTrashAlt, FaEdit} from 'react-icons/fa';
+import { IMaskInput } from 'react-imask'
 
 
 const swal = withReactContent(Swal);
@@ -84,6 +85,9 @@ const EmpList = (props) => {
     // const [created_at, setCreatedAt] = useState('');
     // const [updated_at, setUpdatedAt] = useState('');
 
+    const employeeidMask = /^[0-9\b]+$/;
+    const phoneMask = '639000000000';
+
     const validateForm = (error) => {
         if(error || name.length === 0 || phone.length === 0 || email.length === 0 || location === 0 || emp_id === 0 || company === 0){
             swal.fire({
@@ -93,6 +97,16 @@ const EmpList = (props) => {
             handleCreateClose();
             return false;
         }
+
+        // if(error || phone.length <= 11 ){
+        //     swal.fire({
+        //         title:'Invalid Input',
+        //         text:'Phone Number should not be less than 12 numbers.',
+        //     });
+        //     handleCreateClose();
+        //     return false;
+        // }
+        return true;
     };
 
     const validateForm2 = (error) => {
@@ -104,7 +118,16 @@ const EmpList = (props) => {
             handleEditClose();
             return false;
         }
+        return true;
     };
+
+    // const onlyNumber = (e) =>{
+    //     const regex = /^[0-9\b]+$/;
+    //     if(e.target.value === '' || regex.test(e.target.value)){
+    //        return setPhone({value: e.target.value});
+    //     }
+    //     console.log(setPhone)
+    // }
      
     const reloadTable = () => {
         if(ExpireToken.ExpToken()){
@@ -708,16 +731,25 @@ const EmpList = (props) => {
                                 <Form.Label className='m-px font-px font-bold color-white'>
                                     Phone :
                                 </Form.Label>
-                                <Form.Control 
+                                {/* <Form.Control 
                                     type="text" 
                                     required
                                     placeholder="Phone Number"
                                     pattern='^[0-9]+$'
                                     value={phone}
-                                    onChange={(e) =>setPhone(e.target.value)}
+                                    onChange={(e)=>setPhone(e.target.value)}
                                     className='form-control-input'
                                 >
-                                </Form.Control>
+                                </Form.Control> */}
+                                <IMaskInput
+                                     mask={phoneMask}
+                                     value={phone}
+                                     onChange={(e) => setPhone(e.target.value)}
+                                     placeholder="Enter phone number"
+                                     className='form-control'
+                                     required
+                                >
+                                </IMaskInput>
                                     <Form.Control.Feedback type='invalid'>Phone must be a number!</Form.Control.Feedback>
                             </Form.Group>
                             
@@ -752,7 +784,7 @@ const EmpList = (props) => {
 
                             <Form.Group className='m-px'>
                                 <Form.Label className='m-px font-px font-bold color-white'>Employee ID :</Form.Label>
-                                <Form.Control 
+                                {/* <Form.Control 
                                     type="text" 
                                     placeholder="Employee ID"
                                     pattern='^[0-9]+$'
@@ -761,7 +793,18 @@ const EmpList = (props) => {
                                     value={emp_id}
                                     className='form-control-input'
                                 >
-                                </Form.Control>
+                                </Form.Control> */}
+
+                                <IMaskInput
+                                     mask={employeeidMask}
+                                     value={emp_id}
+                                     onChange={(e) => setEmpId(e.target.value)}
+                                     placeholder="Enter Employee ID"
+                                     className='form-control'
+                                     required
+                                >
+                                </IMaskInput>
+
                                 <Form.Control.Feedback type='invalid'>Employee ID must be a number!</Form.Control.Feedback>
                             </Form.Group>
                             
@@ -810,14 +853,14 @@ const EmpList = (props) => {
                                     className='form-control-input'
                                 >
                                 </Form.Control>
-                                    <Form.Control.Feedback type='invalid'>Please input valid Name!</Form.Control.Feedback>
+                                    <Form.Control.Feedback type='invalid'>Please input a Name!</Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group className='m-px'>
                                 <Form.Label className='m-px font-px font-bold color-white'>
                                     Phone :
                                 </Form.Label>
-                                <Form.Control 
+                                {/* <Form.Control 
                                     type="text" 
                                     required
                                     placeholder="Phone Number"
@@ -826,8 +869,16 @@ const EmpList = (props) => {
                                     onChange={(e) =>setPhone(e.target.value)}
                                     className='form-control-input'
                                 >
-                                </Form.Control>
-                                    <Form.Control.Feedback type='invalid'>Phone must be a number!</Form.Control.Feedback>
+                                </Form.Control> */}
+                                <IMaskInput
+                                     mask={phoneMask}
+                                     value={phone}
+                                     onChange={(e) => setPhone(e.target.value)}
+                                     placeholder="Enter phone number"
+                                     className='form-control'
+                                     required
+                                ></IMaskInput>
+                                    <Form.Control.Feedback type='invalid'>Please input valid Phone Number!</Form.Control.Feedback>
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
@@ -842,7 +893,7 @@ const EmpList = (props) => {
                                     className='form-control-input'
                                 >
                                 </Form.Control>
-                                <Form.Control.Feedback type='invalid'>Please input valid Email Address!</Form.Control.Feedback>
+                                <Form.Control.Feedback type='invalid'>Please input an Email Address!</Form.Control.Feedback>
                             </Form.Group>
                             
                             <Form.Group className='m-px'>
@@ -856,12 +907,12 @@ const EmpList = (props) => {
                                     className='form-control-input'
                                 >
                                 </Form.Control>
-                                <Form.Control.Feedback type='invalid'>Please input valid Location!</Form.Control.Feedback>
+                                <Form.Control.Feedback type='invalid'>Please input a Location!</Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group className='m-px'>
                                 <Form.Label className='m-px font-px font-bold color-white'>Employee ID :</Form.Label>
-                                <Form.Control 
+                                {/* <Form.Control 
                                     type="text" 
                                     placeholder="Employee ID"
                                     pattern='^[0-9]+$'
@@ -870,7 +921,17 @@ const EmpList = (props) => {
                                     value={emp_id}
                                     className='form-control-input'
                                 >
-                                </Form.Control>
+                                </Form.Control> */}
+                                
+                                <IMaskInput
+                                     mask={employeeidMask}
+                                     value={emp_id}
+                                     onChange={(e) => setEmpId(e.target.value)}
+                                     placeholder="Enter Employee ID"
+                                     className='form-control'
+                                     required
+                                >
+                                </IMaskInput>
                                 <Form.Control.Feedback type='invalid'>Employee ID must be a number!</Form.Control.Feedback>
                             </Form.Group>
                             

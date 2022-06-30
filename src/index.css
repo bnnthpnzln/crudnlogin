@@ -142,7 +142,7 @@ section .color:nth-child(4){
   margin-top: 20px;
 }
 
-.form-control-input{
+.form-control{
   position: relative;
   width: 100%;
   background: rgba(255,255,255,0.2);
