@@ -174,22 +174,15 @@ const EmpList = (props) => {
         let empData = _.cloneDeep(data)
         console.log(empData)
         
-        let userInputPhone = _.map(data, 'phone')
+        // let userInputPhone = _.map(data, 'phone')
         let userInputEmail = _.map(data, 'email')
         let userInputEmployeeId = _.map(data, 'emp_id')
         
-        console.log(userInputPhone)
+        // console.log(userInputPhone)
         console.log(userInputEmail)
         console.log(userInputEmployeeId)
 
-        if(userInputPhone.includes(phone) || userInputEmail.includes(email) || userInputEmployeeId.includes(emp_id)){
-            swal.fire({
-                icon: 'warning',
-                text:'Some data is already in the list.',
-                showConfirmButton: false,
-                timer: 2000,
-            });
-        }
+        
 
         setValidated(true);
         e.preventDefault();
@@ -223,6 +216,15 @@ const EmpList = (props) => {
             if(!validateForm()){
                 return
             }
+            if(userInputEmail.includes(email) || userInputEmployeeId.includes(emp_id)){
+                swal.fire({
+                    icon: 'warning',
+                    text:'Some data is already in the list.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+            }
+
         }).catch((error)=>{
                 console.log(error);
                 validateForm(error);
@@ -713,9 +715,10 @@ const EmpList = (props) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         overflow:'hidden'
+                        
                     }}>
-                        <h1>Empty Data</h1>
-                        <img src={empty} alt='empty pic' style={{width: '300px', height: '300px'}}></img>
+                        <h1 style={{color:'#FF0000'}}>The Data is Empty.</h1>
+                        <img src={empty} alt='empty pic' style={{width: '450px', height: '450px'}}></img>
                     </div>
                             
                 }
