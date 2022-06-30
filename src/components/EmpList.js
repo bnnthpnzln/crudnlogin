@@ -821,7 +821,7 @@ const EmpList = (props) => {
                                     type="text" 
                                     required
                                     placeholder="Phone Number"
-                                    // pattern='^[0-9]+$'
+                                    pattern='^[0-9]+$'
                                     value={phone}
                                     onChange={(e) =>setPhone(e.target.value)}
                                     className='form-control-input'
