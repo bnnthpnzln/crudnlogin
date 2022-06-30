@@ -57,9 +57,7 @@ const EmpList = (props) => {
         setShowCreateModal(false);
     }
     const handleShowCreate = () => setShowCreateModal(true);
-
     const handleCloseDelete = () => setShowDeleteModal(false);
-
 
     const [editForm, setEditForm]=useState(false);
 
@@ -151,75 +149,64 @@ const EmpList = (props) => {
         });
     }
     
-    const compareData = (empData) => {
-        let isValid = false;
-        if(empData.name === name) return isValid;
-        if(empData.email === email) return isValid;
-        if(empData.location === location) return isValid;
-        if(empData.emp_id === emp_id) return isValid;
-        if(empData.company === company) return isValid;
-        if(empData.phone === phone) return isValid;
-        isValid = true;
-        return isValid;
-    }
 
     const handleCreateUser = (e) =>{
         if(ExpireToken.ExpToken()){
-           navigate('/');
-           return invalidTokenAlert();
-       }
-       const form = e.currentTarget;
-       // console.log(form)
-       if(form.checkValidity() === false){
-           e.preventDefault();
-           e.stopPropagation();
-       }
-       else{
-           setName('');
-           setPhone('');
-           setEmail('');
-           setLocation('');
-           setEmpId('');
-           setCompany('');
-           setEditForm(false);
-       }
-       setValidated(true);
-       e.preventDefault();
-       axios( {
-           headers:{
-               "Content-Type": "application/json",
-               'Authorization': `Bearer ${localStorage.getItem('token')}`, 
-           },
-           method:'POST', 
-           url:'https://gowtham-rest-api-crud.herokuapp.com/employees',
-           data:{
-               name: name,
-               phone: phone,
-               email: email,
-               location: location,
-               emp_id: emp_id,
-               company: company,
-           }
-       })
-       .then(result=>{
-           if (result) {
-               swal.fire({
-                   icon: 'success',
-                   text:'Successfully Added.',
-                   showConfirmButton: false,
-                   timer: 2000,
-               });
-               reloadTable();
-               handleCreateClose();
-           }
-           if(!validateForm()){
-               return
-           }
-       }).catch((error)=>{
-               console.log(error);
-               validateForm(error);
-       })
-   }
+            navigate('/');
+            return invalidTokenAlert();
+        }
+        const form = e.currentTarget;
+        // console.log(form)
+        if(form.checkValidity() === false){
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        else{
+            setName('');
+            setPhone('');
+            setEmail('');
+            setLocation('');
+            setEmpId('');
+            setCompany('');
+            setEditForm(false);
+        }
+        setValidated(true);
+        e.preventDefault();
+        axios( {
+            headers:{
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${localStorage.getItem('token')}`, 
+            },
+            method:'POST', 
+            url:'https://gowtham-rest-api-crud.herokuapp.com/employees',
+            data:{
+                name: name,
+                phone: phone,
+                email: email,
+                location: location,
+                emp_id: emp_id,
+                company: company,
+            }
+        })
+        .then(result=>{
+            if (result) {
+                swal.fire({
+                    icon: 'success',
+                    text:'Successfully Added.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                reloadTable();
+                handleCreateClose();
+            }
+            if(!validateForm()){
+                return
+            }
+        }).catch((error)=>{
+                console.log(error);
+                validateForm(error);
+        })
+    }
 
     const openView = (id) => {
         if(ExpireToken.ExpToken()){
@@ -261,6 +248,18 @@ const EmpList = (props) => {
         })
     }
 
+    const compareData = (empData) => {
+        let isValid = false;
+        if(empData.name === name) return isValid;
+        if(empData.email === email) return isValid;
+        if(empData.location === location) return isValid;
+        if(empData.emp_id === emp_id) return isValid;
+        if(empData.company === company) return isValid;
+        if(empData.phone === phone) return isValid;
+        isValid = true;
+        return isValid;
+    }
+
     const handleEditSubmit = (e) => {
          if(ExpireToken.ExpToken()){
             navigate('/');
@@ -272,7 +271,6 @@ const EmpList = (props) => {
             e.preventDefault();
             e.stopPropagation();
         }else{
-
             setName('');
             setPhone('');
             setEmail('');
