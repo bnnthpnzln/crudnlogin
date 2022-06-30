@@ -20,6 +20,21 @@ const swal = withReactContent(Swal);
 const EmpList = (props) => {
 
     const navigate = useNavigate();
+
+    const [validated,setValidated] = useState(false);
+    const [id, setId] = useState('');
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    const [location, setLocation] = useState('');
+    const [emp_id, setEmpId] = useState('');
+    const [company, setCompany] = useState('');
+    const [deleteId, setDeleteId] = useState('');
+    // const [created_at, setCreatedAt] = useState('');
+    // const [updated_at, setUpdatedAt] = useState('');
+
+    const employeeidMask = /^[0-9\b]+$/;
+    const phoneMask = '639000000000';
     
     const [show, setShow] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -72,21 +87,6 @@ const EmpList = (props) => {
         reloadTable();
     },[]);
     
-
-    const [validated,setValidated] = useState(false);
-    const [id, setId] = useState('');
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
-    const [location, setLocation] = useState('');
-    const [emp_id, setEmpId] = useState('');
-    const [company, setCompany] = useState('');
-    const [deleteId, setDeleteId] = useState('');
-    // const [created_at, setCreatedAt] = useState('');
-    // const [updated_at, setUpdatedAt] = useState('');
-
-    const employeeidMask = /^[0-9\b]+$/;
-    const phoneMask = '639000000000';
 
     const validateForm = (error) => {
         if(error || name.length === 0 || phone.length === 0 || email.length === 0 || location === 0 || emp_id === 0 || company === 0){
@@ -151,10 +151,80 @@ const EmpList = (props) => {
         });
     }
     
-   const openView = (id) => {
-         if(ExpireToken.ExpToken()){
-             navigate('/');
-             return invalidTokenAlert();
+    const compareData = (empData) => {
+        let isValid = false;
+        if(empData.name === name) return isValid;
+        if(empData.email === email) return isValid;
+        if(empData.location === location) return isValid;
+        if(empData.emp_id === emp_id) return isValid;
+        if(empData.company === company) return isValid;
+        if(empData.phone === phone) return isValid;
+        isValid = true;
+        return isValid;
+    }
+
+    const handleCreateUser = (e) =>{
+        if(ExpireToken.ExpToken()){
+           navigate('/');
+           return invalidTokenAlert();
+       }
+       const form = e.currentTarget;
+       // console.log(form)
+       if(form.checkValidity() === false){
+           e.preventDefault();
+           e.stopPropagation();
+       }
+       else{
+           setName('');
+           setPhone('');
+           setEmail('');
+           setLocation('');
+           setEmpId('');
+           setCompany('');
+           setEditForm(false);
+       }
+       setValidated(true);
+       e.preventDefault();
+       axios( {
+           headers:{
+               "Content-Type": "application/json",
+               'Authorization': `Bearer ${localStorage.getItem('token')}`, 
+           },
+           method:'POST', 
+           url:'https://gowtham-rest-api-crud.herokuapp.com/employees',
+           data:{
+               name: name,
+               phone: phone,
+               email: email,
+               location: location,
+               emp_id: emp_id,
+               company: company,
+           }
+       })
+       .then(result=>{
+           if (result) {
+               swal.fire({
+                   icon: 'success',
+                   text:'Successfully Added.',
+                   showConfirmButton: false,
+                   timer: 2000,
+               });
+               reloadTable();
+               handleCreateClose();
+           }
+           if(!validateForm()){
+               return
+           }
+       }).catch((error)=>{
+               console.log(error);
+               validateForm(error);
+       })
+   }
+
+    const openView = (id) => {
+        if(ExpireToken.ExpToken()){
+            navigate('/');
+            return invalidTokenAlert();
         }
         // let empData = _.cloneDeep(data.find(id))
         // console.log(empData)
@@ -189,110 +259,6 @@ const EmpList = (props) => {
         }).catch((err)=>{
             console.log(err)
         })
-   }
-
-    const handleCreateUser = (e) =>{
-         if(ExpireToken.ExpToken()){
-            navigate('/');
-            return invalidTokenAlert();
-        }
-        const form = e.currentTarget;
-        // console.log(form)
-        if(form.checkValidity() === false){
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        else{
-            setName('');
-            setPhone('');
-            setEmail('');
-            setLocation('');
-            setEmpId('');
-            setCompany('');
-            setEditForm(false);
-        }
-        setValidated(true);
-        e.preventDefault();
-        axios( {
-            headers:{
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${localStorage.getItem('token')}`, 
-            },
-            method:'POST', 
-            url:'https://gowtham-rest-api-crud.herokuapp.com/employees',
-            data:{
-                name: name,
-                phone: phone,
-                email: email,
-                location: location,
-                emp_id: emp_id,
-                company: company,
-            }
-        })
-        .then(result=>{
-            if (result) {
-                swal.fire({
-                    icon: 'success',
-                    text:'Successfully Added.',
-                    showConfirmButton: false,
-                    timer: 2000,
-                });
-                reloadTable();
-                handleCreateClose();
-            }
-            if(!validateForm()){
-                return
-            }
-        }).catch((error)=>{
-                console.log(error);
-                validateForm(error);
-        })
-    }
-
-    const handleShowDelete = (id) =>{
-         if(ExpireToken.ExpToken()){
-            navigate('/');
-            return invalidTokenAlert();
-        }
-        if(!id) return;
-        setShowDeleteModal(true);
-        setDeleteId(id);
-        
-    }
-
-    const deleteItem = () => {
-        var config = {
-            method: 'delete',
-            url: `https://gowtham-rest-api-crud.herokuapp.com/employees/${deleteId}`,
-            headers: { 
-              'Authorization': `Bearer ${localStorage.getItem('token')}`, 
-            }
-        };
-        axios(config).then(( response )=>{
-            if(!response)return;
-            reloadTable() ;
-            setDeleteId('');
-            swal.fire({
-                icon: 'success',
-                text:'Successfully Deleted.',
-                showConfirmButton: false,
-                timer: 2000,
-            });
-            setShowDeleteModal(false);
-        }).catch(err=>{
-            console.error(err);
-        });
-    }
-    const compareData = (empData) => {
-        let isValid = false;
-        if(empData.name === name) return isValid;
-        if(empData.email === email) return isValid;
-        if(empData.location === location) return isValid;
-        if(empData.emp_id === emp_id) return isValid;
-        if(empData.company === company) return isValid;
-        if(empData.phone === phone) return isValid;
-        isValid = true;
-        return isValid;
     }
 
     const handleEditSubmit = (e) => {
@@ -365,6 +331,40 @@ const EmpList = (props) => {
             console.log(error)
             validateForm2(error);
         })
+    }
+
+    const handleShowDelete = (id) =>{
+        if(ExpireToken.ExpToken()){
+            navigate('/');
+            return invalidTokenAlert();
+        }
+        if(!id) return;
+        setShowDeleteModal(true);
+        setDeleteId(id);
+    }
+
+    const deleteItem = () => {
+        var config = {
+            method: 'delete',
+            url: `https://gowtham-rest-api-crud.herokuapp.com/employees/${deleteId}`,
+            headers: { 
+                'Authorization': `Bearer ${localStorage.getItem('token')}`, 
+            }
+        };
+        axios(config).then(( response )=>{
+            if(!response)return;
+            reloadTable() ;
+            setDeleteId('');
+            swal.fire({
+                icon: 'success',
+                text:'Successfully Deleted.',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+            setShowDeleteModal(false);
+        }).catch(err=>{
+            console.error(err);
+        });
     }
 
   return (
