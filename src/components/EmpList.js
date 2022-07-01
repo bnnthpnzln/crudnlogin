@@ -182,8 +182,6 @@ const EmpList = (props) => {
         console.log(userInputEmail)
         console.log(userInputEmployeeId)
 
-        
-
         setValidated(true);
         e.preventDefault();
         axios( {
@@ -224,7 +222,6 @@ const EmpList = (props) => {
                     timer: 2000,
                 });
             }
-
         }).catch((error)=>{
                 console.log(error);
                 validateForm(error);
